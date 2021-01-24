@@ -14,47 +14,58 @@ conda activate FYP
 pip install -r requirement.txt
 ```
 
-## Dataset prepare
-- Sogou Chinese news dataset:["SogouCA"](http://www.sogou.com/labs/resource/ca.php) 
-<br/>Since downloading dataset need registration so no link is provided.
-<br/>Just put the downloaded `.zip` file into `./Dataset/Sogou/`.
-
-- unzip it then delete original `.zip` file: 
+- Export the pythonPath for pwd: \
+    This script will import pythonPath automatically (In linux & MAC OS env) \
+    **You may need to run this script every time you init your program.**
 ```
-unzip ./Dataset/Sogou/news_tensite_xml.full.zip -d ./Dataset/Sogou/
-rm ./Dataset/Sogou/news_tensite_xml.full.zip
+source ./set_path.sh
 ```
 
-- Extract the corpus we need:
-```
-cat ./Dataset/Sogou/news_tensite_xml.dat | iconv -f gbk -t utf-8 -c | grep "<content>" > ./Dataset/Sogou/corpus.txt
-```
-
-- The corpus format will like this:
-```
-<content>WTM一点错也没有呢!</content>
+## Trained Model download
+- Download the architecture dataset sample json file.
 ```
 
-- Tokenization the chinese content with jieba (break sentence into words):
-<br/>(You can also use the different stop words by targeting `-s` flag.)
-```
-Python ./Preprocessing/Text/Sogou/tokenization.py -i ./Dataset/Sogou/corpus.txt -o ./Dataset/Sogou/corpusSegDone.txt
 ```
 
-- Train word2vec:
-```
-Python ./Preprocessing/Text/Sogou/word2vec.py -d ./Dataset/Sogou/corpusSegDone.txt -s ./Dataset/Sogou/word2vecDone.model
-```
-
-- Test word2vec result by using T-SNE and PCA:
-```
-Python ./Preprocessing/Text/Sogou/visualization.py -s ./Dataset/Sogou/word2vecDone.model
+- Download the trained word2vec model weight. \
+    (To training your word2vec from scrach, refer to the document in "utils/Word2vec" and "Models/Doc2Vec/source")
 ```
 
-# TODO: 
-- 写LMIR和BM25的使用方法
-参考: https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.94.8019&rep=rep1&type=pdf
+```
 
+## How this project organized
 
+### Folder structure & usage:
+```
+- Dataloader
+- Dataset
+- Models
+- utils
+```
 
+#### Dataloader 
+- `Dataloader`: Store the `dataloader` class for information retrieval. \
+    Dataloader class is a python class that read the raw file into a format in python that we defined for further use. Current we just have dataloader for our archtecture dataset.
 
+#### Dataset
+- `Dataset`: Store the `raw dataset files`. \
+    Current we have two pre-defined folder, Sogou and Arch. You may want to put the dataset you download here.
+
+#### Models
+- `Models`: Contains the `information retrieval model` we implement. \
+    Current we have three class of model: 
+    1. **Statistic-based retrieval Model**: `BestMatch25` and `LMIR`.\
+        We build above two kinds of algorithms into one class. \
+        Check `"archLmirBm25Model.py"` for Architecture Dataset information retrieval.
+    2. **Feature-based model**: `Doc2Vec` (`Word2Vec`)\
+        We also implemented the Word2Vec model for information retrieval. \
+        Check `"archDoc2vecModel.py"` for Architecture Dataset information retrieval.
+    3. **Mixed model**: `MixModel` \
+        In this model, we combined above two model and mix the retrieval result with specified weight. \
+        Check `"archMixModel.py"` for Architecture Dataset information retrieval.
+
+#### utils
+- `utils`: Contains the stopwords and training process for Word2Vec model.
+
+## How to use the model on Architecture dataset:
+You may want to use above three kinds model in your system. We have shown the sample usage code in the end of class defination code. Just refer to the code fragment in the end of `"archLmirBm25Model.py"`, `"archDoc2vecModel.py"` and `"archMixModel.py"` file.
