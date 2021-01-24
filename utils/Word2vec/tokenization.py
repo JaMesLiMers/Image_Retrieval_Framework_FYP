@@ -6,7 +6,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-i", "--input", type=str, help="input file directory", required=True)
 parser.add_argument("-o", "--output", type=str, help="output file directory", required=True)
-parser.add_argument("-s", "--stopword", default="./Preprocessing/Text/Stop_words/hit_stopwords.txt", type=str, help="stop word's directory")
+parser.add_argument("-s", "--stopword", default="./utils/Stop_words/hit_stopwords.txt", type=str, help="stop word's directory")
 args = parser.parse_args()
 
 filePath = args.input
