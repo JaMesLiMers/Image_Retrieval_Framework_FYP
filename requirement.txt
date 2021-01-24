@@ -1,0 +1,11 @@
+tqdm
+numpy
+pandas
+jieba
+gensim
+pyemd
+sklearn
+torch
+torchvision
+matplotlib
+seaborn
