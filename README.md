@@ -28,7 +28,7 @@ source ./set_path.sh
 ```
 
 - Download the trained word2vec model weight. \
-    (To training your word2vec from scrach, refer to the document in "utils/Word2vec" and "Models/Doc2Vec/source")
+    (To training your word2vec from scrach, refer to the document in `"utils/Word2vec"` and `"Models/Doc2Vec/source"`)
 ```
 
 ```
