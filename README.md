@@ -18,7 +18,9 @@ pip install -r requirement.txt
     This script will import pythonPath automatically (In linux & MAC OS env) \
     **You may need to run this script every time you init your program.**
 ```
-source ./set_path.sh
+(MAC & linux) source ./set_path.sh
+(Win CMD) set PYTHONPATH=%PYTHONPATH%;$PWD
+(Win Powershell)  $Env:PYTHONPATH=$Env:PYTHONPATH+";$PWD" 
 ```
 
 ## Trained Model download
