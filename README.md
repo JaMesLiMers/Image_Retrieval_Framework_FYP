@@ -22,16 +22,12 @@ source ./set_path.sh
 ```
 
 ## Trained Model download
-- Download the architecture dataset sample json file.
-```
+- Download the architecture dataset sample json file. Put the json file in the `"Dataset/Arch/"`.
 
-```
 
 - Download the trained word2vec model weight. \
-    (To training your word2vec from scrach, refer to the document in `"utils/Word2vec"` and `"Models/Doc2Vec/source"`)
-```
-
-```
+    (To training your word2vec from scrach, refer to the document in `"utils/Word2vec"` and `"Models/Doc2Vec/source"`) \
+    Baidu: https://pan.baidu.com/s/1Q3ZmM0E7WoGqu46j6QK1kw  Password: dsem 
 
 ## How this project organized
 
