@@ -67,7 +67,7 @@ if __name__ == "__main__":
             else:
                 annoString += "{} : {}\n".format(key, value)
 
-        imageTitles.append(annoString)
+        imageAnno.append(annoString)
     else:
         result["result"]["imagePath"] = imagePaths
         result["result"]["imageTitle"] = imageTitles
