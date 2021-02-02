@@ -77,7 +77,7 @@ class archLmirBm25Model():
         result = self.model.forwardWords(to_search, weights)
 
         # get index
-        index = np.argsort(result["ALL"]["ALL"])[::-1]
+        index = np.argsort(result["ALL"])[::-1]
 
         # result
         imageId = []
