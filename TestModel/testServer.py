@@ -69,9 +69,9 @@ class PostHandler(BaseHTTPRequestHandler):
         # search a list of word/sentence
         try:
             if useWeight:
-                index, copora, annoIds , imageIds = self.model.searchWords(listWords=query, weights=weight)
+                sortedResult, index, copora, annoIds , imageIds = self.model.searchWords(listWords=query, weights=weight)
             else:
-                index, copora, annoIds , imageIds = self.model.searchSentence(listWords=query)
+                sortedResult, index, copora, annoIds , imageIds = self.model.searchSentence(listWords=query)
         except Exception as e:
             return {}
 
@@ -103,6 +103,7 @@ class PostHandler(BaseHTTPRequestHandler):
             result["result"]["imagePath"] = imagePaths
             result["result"]["imageTitle"] = imageTitles
             result["result"]["imageAnno"] = imageAnno
+            result["result"]["imageSim"] = sortedResult
         return result
 
     def _set_headers(self):

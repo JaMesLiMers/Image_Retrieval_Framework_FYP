@@ -49,6 +49,7 @@ class archDoc2vecModel():
 
         # get index
         index = np.argsort(result["ALL"])[::-1]
+        sortedResult = np.sort(result["ALL"])
         
         # result
         imageId = []
@@ -59,7 +60,7 @@ class archDoc2vecModel():
             copora.append(self.notCutCorporaList[i])
             imageId.append(self.archDataset.anns[self.annIdList[i]]["imageId"])
 
-        return index, copora, annoId, imageId
+        return sortedResult, index, copora, annoId, imageId
 
     def searchWords(self, listWords, weights):
         """
@@ -78,6 +79,7 @@ class archDoc2vecModel():
 
         # get index
         index = np.argsort(result["ALL"]["ALL"])[::-1]
+        sortedResult = np.sort(result["ALL"])
 
         # result
         imageId = []
@@ -89,7 +91,7 @@ class archDoc2vecModel():
             imageId.append(self.archDataset.anns[self.annIdList[i]]["imageId"])
 
         # result
-        return index, copora, annoId, imageId
+        return sortedResult, index, copora, annoId, imageId
 
 if __name__ == "__main__":
     # how to use:
@@ -98,7 +100,7 @@ if __name__ == "__main__":
     # init model
     model = archDoc2vecModel(archPath=archPath, modelPath=modelPath)
     # search a list of word/sentence
-    index, copora, annoId, imageId = model.searchSentence(listWords=["图书馆"])
+    sortedResult, index, copora, annoId, imageId = model.searchSentence(listWords=["图书馆"])
     # print result
     for i in range(10):
         print("{}'th most similar index: {}\n".format(i+1, index[i]))

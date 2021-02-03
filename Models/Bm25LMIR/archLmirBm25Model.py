@@ -49,6 +49,7 @@ class archLmirBm25Model():
 
         # get index
         index = np.argsort(result["ALL"])[::-1]
+        sortedResult = np.sort(result["ALL"])
         
         # result
         imageId = []
@@ -59,7 +60,7 @@ class archLmirBm25Model():
             copora.append(self.notCutCorporaList[i])
             imageId.append(self.archDataset.anns[self.annIdList[i]]["imageId"])
 
-        return index, copora, annoId, imageId
+        return sortedResult, index, copora, annoId, imageId
 
     def searchWords(self, listWords, weights):
         """
@@ -78,6 +79,7 @@ class archLmirBm25Model():
 
         # get index
         index = np.argsort(result["ALL"])[::-1]
+        sortedResult = np.sort(result["ALL"])
 
         # result
         imageId = []
@@ -89,7 +91,7 @@ class archLmirBm25Model():
             imageId.append(self.archDataset.anns[self.annIdList[i]]["imageId"])
 
         # result
-        return index, copora, annoId, imageId
+        return sortedResult, index, copora, annoId, imageId
 
 if __name__ == "__main__":
     # how to use:
@@ -97,7 +99,7 @@ if __name__ == "__main__":
     # init model
     model = archLmirBm25Model(archPath=archPath)
     # search a list of word/sentence
-    index, copora, annoId, imageId = model.searchSentence(listWords=["图书馆"])
+    index, copora, annoId, imageId, sortedResult = model.searchSentence(listWords=["图书馆"])
     # print result
     for i in range(10):
         print("{}'th most similar index: {}\n".format(i+1, index[i]))

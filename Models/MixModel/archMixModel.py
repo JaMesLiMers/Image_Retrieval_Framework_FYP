@@ -112,6 +112,7 @@ class archMixModel():
 
         # get index
         index = np.argsort(result["ALL"])[::-1]
+        sortedResult = np.sort(result["ALL"])
         
         # result
         imageId = []
@@ -122,9 +123,8 @@ class archMixModel():
             copora.append(self.notCutCorporaList[i])
             imageId.append(self.archDataset.anns[self.annIdList[i]]["imageId"])
 
-        return index, copora, annoId, imageId
+        return sortedResult, index, copora, annoId, imageId
 
-    # TODO
     def searchWords(self, listWords, weights):
         """
         Search a list of keyword
@@ -141,7 +141,8 @@ class archMixModel():
         result = self.forwardWords(to_search, weights)
 
         # get index
-        index = np.argsort(result["ALL"]["ALL"])[::-1]
+        index = np.argsort(result["ALL"])[::-1]
+        sortedResult = np.sort(result["ALL"])
 
         # result
         imageId = []
@@ -153,7 +154,7 @@ class archMixModel():
             imageId.append(self.archDataset.anns[self.annIdList[i]]["imageId"])
 
         # result
-        return index, copora, annoId, imageId
+        return sortedResult, index, copora, annoId, imageId
 
 if __name__ == "__main__":
     # how to use:
@@ -162,7 +163,7 @@ if __name__ == "__main__":
     # init model
     model = archMixModel(archPath=archPath, modelPath=modelPath)
     # search a list of word/sentence
-    index, copora, annoId, imageId = model.searchSentence(listWords=["图书馆", "现代", "平面图"])
+    sortedResult, index, copora, annoId, imageId = model.searchSentence(listWords=["图书馆", "现代", "平面图"])
     # print result
     for i in range(10):
         print("{}'th most similar index: {}\n".format(i+1, index[i]))

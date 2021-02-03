@@ -43,7 +43,7 @@ if __name__ == "__main__":
         "weight": [0.1, 0.9]}
 
     # search a list of word/sentence
-    index, copora, annoIds , imageIds = model.searchSentence(listWords=["图书馆"])
+    sortedResult, index, copora, annoIds , imageIds = model.searchSentence(listWords=["图书馆"])
 
     # init result
     result = {}
