@@ -38,9 +38,7 @@ class archMixModel():
 
 
     def standardization(self, data):
-        mu = np.mean(data, axis=0)
-        sigma = np.std(data, axis=0)
-        return (data - mu) / sigma
+        return (data-np.min(data))/(np.max(data)-np.min(data))
 
     def forward(self, X):
         """
@@ -112,7 +110,7 @@ class archMixModel():
 
         # get index
         index = np.argsort(result["ALL"])[::-1]
-        sortedResult = np.sort(result["ALL"])
+        sortedResult = self.standardization(np.sort(result["ALL"])[::-1])
         
         # result
         imageId = []
@@ -142,8 +140,8 @@ class archMixModel():
 
         # get index
         index = np.argsort(result["ALL"])[::-1]
-        sortedResult = np.sort(result["ALL"])
-
+        sortedResult = self.standardization(np.sort(result["ALL"])[::-1])
+        
         # result
         imageId = []
         annoId = []

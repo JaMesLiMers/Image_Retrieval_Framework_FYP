@@ -103,7 +103,7 @@ class PostHandler(BaseHTTPRequestHandler):
             result["result"]["imagePath"] = imagePaths
             result["result"]["imageTitle"] = imageTitles
             result["result"]["imageAnno"] = imageAnno
-            result["result"]["imageSim"] = sortedResult
+            result["result"]["imageSim"] = sortedResult.tolist()
         return result
 
     def _set_headers(self):

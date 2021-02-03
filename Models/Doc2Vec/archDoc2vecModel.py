@@ -31,6 +31,9 @@ class archDoc2vecModel():
         self.modelPath = modelPath
 
         self.model = doc2vecModel(self.corporaList, model_path=self.modelPath)
+    
+    def standardization(self, data):
+        return (data-np.min(data))/(np.max(data)-np.min(data))
 
     def searchSentence(self, listWords):
         """
@@ -49,7 +52,7 @@ class archDoc2vecModel():
 
         # get index
         index = np.argsort(result["ALL"])[::-1]
-        sortedResult = np.sort(result["ALL"])
+        sortedResult = self.standardization(np.sort(result["ALL"])[::-1])
         
         # result
         imageId = []
@@ -79,7 +82,7 @@ class archDoc2vecModel():
 
         # get index
         index = np.argsort(result["ALL"]["ALL"])[::-1]
-        sortedResult = np.sort(result["ALL"])
+        sortedResult = self.standardization(np.sort(result["ALL"])[::-1])
 
         # result
         imageId = []

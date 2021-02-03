@@ -32,6 +32,9 @@ class archLmirBm25Model():
 
         self.model = lmirBm25Model(self.corporaList, modelWeight=self.model_weight)
 
+    def standardization(self, data):
+        return (data-np.min(data))/(np.max(data)-np.min(data))
+
     def searchSentence(self, listWords):
         """
         Search a sentence contains keyword
@@ -49,7 +52,7 @@ class archLmirBm25Model():
 
         # get index
         index = np.argsort(result["ALL"])[::-1]
-        sortedResult = np.sort(result["ALL"])
+        sortedResult = self.standardization(np.sort(result["ALL"])[::-1])
         
         # result
         imageId = []
@@ -79,7 +82,7 @@ class archLmirBm25Model():
 
         # get index
         index = np.argsort(result["ALL"])[::-1]
-        sortedResult = np.sort(result["ALL"])
+        sortedResult = self.standardization(np.sort(result["ALL"])[::-1])
 
         # result
         imageId = []
