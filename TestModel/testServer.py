@@ -27,10 +27,15 @@ class PostHandler(BaseHTTPRequestHandler):
                 {
                     "result":{
                         "imageId":[图片id列表],
+                        "imageSim": [图片的相似度, 归一化到0-1区间内]
                         "imagePath":[图片path列表],
                         "imageTitle":[图片title列表],
                         "imageAnno": [要显示的图片标注列表],
                         }
+                    "status":{
+                        "statusCode": 0 or 1,
+                        "statusMsg": "String"
+                    }
                 }
 
         TODO: 
@@ -56,10 +61,15 @@ class PostHandler(BaseHTTPRequestHandler):
                 {
                     "result":{
                         "imageId":[图片id列表],
+                        "imageSim": [图片的相似度, 归一化到0-1区间内]
                         "imagePath":[图片path列表],
                         "imageTitle":[图片title列表],
                         "imageAnno": [要显示的图片标注列表],
                         }
+                    "status":{
+                        "statusCode": 0 or 1,
+                        "statusMsg": "String"
+                    }
                 }
             若结果出了问题则返回空字典
         """
@@ -69,6 +79,7 @@ class PostHandler(BaseHTTPRequestHandler):
         # init result
         result = {}
         result["result"] = {}
+        result["status"] = {}
         imagePaths = []
         imageTitles = []
         imageAnno = []
@@ -80,7 +91,8 @@ class PostHandler(BaseHTTPRequestHandler):
             else:
                 sortedResult, index, copora, annoIds , imageIds = self.model.searchSentence(listWords=query)
         except Exception as e:
-            result["status"] = "Fail, catch exception: {} when retrieving".format(e)
+            result["status"]["statusCode"] = 1
+            result["status"]["statusMsg"] = "Fail, catch exception: {} when retrieving".format(e)
             return result
 
 
@@ -100,11 +112,14 @@ class PostHandler(BaseHTTPRequestHandler):
 
             imageAnno.append(annoString)
         else:
+            # result
             result["result"]["imageId"] = imageIds
             result["result"]["imagePath"] = imagePaths
             result["result"]["imageTitle"] = imageTitles
             result["result"]["imageAnno"] = imageAnno
             result["result"]["imageSim"] = sortedResult.tolist()
+            # statue
+            result["status"]["statusCode"] = 0
             result["status"] = "Success"
         return result
 
