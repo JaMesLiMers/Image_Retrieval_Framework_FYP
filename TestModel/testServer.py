@@ -43,6 +43,7 @@ class PostHandler(BaseHTTPRequestHandler):
         2. 增加有weight和无weight的不同行为, 目前默认使用weight. [Done]
         3. 增加服务器启动的参数, 包括ip地址和port. [Done]
         4. 测试可用性. [Done]
+        5. 增加状态码. [Done]
     """
     # 在实例化之前加载的全局变量(查询类)
     archPath = "./Dataset/Arch/DemoData_20201228.json"
