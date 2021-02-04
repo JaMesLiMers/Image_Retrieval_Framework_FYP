@@ -33,7 +33,9 @@ class archLmirBm25Model():
         self.model = lmirBm25Model(self.corporaList, modelWeight=self.model_weight)
 
     def standardization(self, data):
-        return (data-np.min(data))/(np.max(data)-np.min(data))
+        minValue = np.min(data)
+        maxValue = np.max(data)
+        return (data - minValue) / (maxValue - minValue) if (maxValue - minValue) != 0 else data
 
     def searchSentence(self, listWords):
         """
@@ -65,6 +67,35 @@ class archLmirBm25Model():
 
         return sortedResult, index, copora, annoId, imageId
 
+    
+    def cut_words(self, listWords, weights):
+        """
+        预处理: 分词分weight
+
+            Input:
+                listWords: ["中国红花"]
+                weights: ["1"]
+
+            Return:
+                cutWords:["中国", "红花"]
+                weights: [0.5, 0.5]
+        """
+        cutWords = []
+        newWeight = []
+        for i in range(len(listWords)):
+            # cut word into ["中国", "红花"]
+            toCut = listWords[i]
+            cutWord = list(jieba.cut(toCut, True))
+            cutWords += cutWord
+
+            # cal weight
+            weight = weights[i]
+            weight = float(weight) / len(cutWords)
+
+            newWeight += [weight for i in range(len(cutWords))]
+        return cutWords, newWeight
+
+
     def searchWords(self, listWords, weights):
         """
         Search a list of keyword
@@ -73,12 +104,10 @@ class archLmirBm25Model():
             listWords: 未分好词的查询部分, 是一个或几个字符串的数组
         """
         # cut words
-        to_search = []
-        for i in listWords:
-            to_search += list(jieba.cut(i, True))
+        listWords, weights = self.cut_words(listWords, weights)
 
         # search
-        result = self.model.forwardWords(to_search, weights)
+        result = self.model.forwardWords(listWords, weights)
 
         # get index
         index = np.argsort(result["ALL"])[::-1]

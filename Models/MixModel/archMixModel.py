@@ -38,7 +38,9 @@ class archMixModel():
 
 
     def standardization(self, data):
-        return (data-np.min(data))/(np.max(data)-np.min(data))
+        minValue = np.min(data)
+        maxValue = np.max(data)
+        return (data - minValue) / (maxValue - minValue) if (maxValue - minValue) != 0 else data
 
     def forward(self, X):
         """

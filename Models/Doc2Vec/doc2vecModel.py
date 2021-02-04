@@ -20,7 +20,7 @@ class doc2vecModel():
     def standardization(self, data):
         mu = np.mean(data, axis=0)
         sigma = np.std(data, axis=0)
-        return (data - mu) / sigma
+        return (data - mu) / sigma if sigma != 0 else data
         
     def forward(self, X):
         """
