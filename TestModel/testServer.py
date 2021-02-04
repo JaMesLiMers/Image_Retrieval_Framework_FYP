@@ -66,6 +66,13 @@ class PostHandler(BaseHTTPRequestHandler):
         # check weight is same length as query
         useWeight = weight and len(weight) == len(query)
 
+        # init result
+        result = {}
+        result["result"] = {}
+        imagePaths = []
+        imageTitles = []
+        imageAnno = []
+
         # search a list of word/sentence
         try:
             if useWeight:
@@ -73,15 +80,9 @@ class PostHandler(BaseHTTPRequestHandler):
             else:
                 sortedResult, index, copora, annoIds , imageIds = self.model.searchSentence(listWords=query)
         except Exception as e:
-            return {}
+            result["status"] = "Fail, catch exception: {} when retrieving".format(e)
+            return result
 
-
-        # init result
-        result = {}
-        result["result"] = {}
-        imagePaths = []
-        imageTitles = []
-        imageAnno = []
 
         # get all result
         for (annoId, imageId) in zip(annoIds, imageIds):
@@ -104,6 +105,7 @@ class PostHandler(BaseHTTPRequestHandler):
             result["result"]["imageTitle"] = imageTitles
             result["result"]["imageAnno"] = imageAnno
             result["result"]["imageSim"] = sortedResult.tolist()
+            result["status"] = "Success"
         return result
 
     def _set_headers(self):
