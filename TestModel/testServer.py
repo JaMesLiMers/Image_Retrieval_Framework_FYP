@@ -121,7 +121,7 @@ class PostHandler(BaseHTTPRequestHandler):
             result["result"]["imageSim"] = sortedResult.tolist()
             # statue
             result["status"]["statusCode"] = 0
-            result["status"] = "Success"
+            result["status"]["statusMsg"] = "Success"
         return result
 
     def _set_headers(self):
