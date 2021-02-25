@@ -175,7 +175,7 @@ if __name__ == '__main__':
     # add parser, now we can set ip and port.
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--ip", default="localhost", help="ip address of server", required=False)
-    parser.add_argument("-p", "--port", type=int, default=8080, help="port of server", required=False)
+    parser.add_argument("-p", "--port", type=int, default=35008, help="port of server", required=False)
     args = parser.parse_args()
     # run server
     server = HTTPServer((args.ip, args.port), PostHandler)
