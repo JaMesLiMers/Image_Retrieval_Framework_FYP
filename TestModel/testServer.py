@@ -174,7 +174,7 @@ if __name__ == '__main__':
     from http.server import HTTPServer
     # add parser, now we can set ip and port.
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--ip", default="localhost", help="ip address of server", required=False)
+    parser.add_argument("-i", "--ip", default="0.0.0.0", help="ip address of server", required=False)
     parser.add_argument("-p", "--port", type=int, default=35008, help="port of server", required=False)
     args = parser.parse_args()
     # run server
@@ -183,4 +183,4 @@ if __name__ == '__main__':
     server.serve_forever()
 
     # test 
-    # curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"query":["a", "b"], "weight":[0.1, 0.9]}' -o testresult.json http://127.0.0.1:8080 
+    # curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"query":["a", "b"], "weight":[0.1, 0.9]}' -o testresult.json http://127.0.0.1:35008
