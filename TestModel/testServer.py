@@ -141,11 +141,12 @@ class PostHandler(BaseHTTPRequestHandler):
         """
         ctype, pdict = cgi.parse_header(self.headers.get('content-type'))
         
+        # removed
         # refuse to receive non-json content
-        if ctype != 'application/json':
-            self.send_response(400)
-            self.end_headers()
-            return
+        # if ctype != 'application/json':
+        #     self.send_response(400)
+        #     self.end_headers()
+        #     return
             
         # read the message and convert it into a python dictionary
         length = int(self.headers.get('content-length'))
