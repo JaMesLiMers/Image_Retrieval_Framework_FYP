@@ -1,3 +1,4 @@
+from json.decoder import JSONDecodeError
 import os
 import sys
 import cgi
@@ -139,7 +140,7 @@ class PostHandler(BaseHTTPRequestHandler):
         """
         处理post请求, 保证输入为json格式并具有目标格式的内容, 并返回需要的结果(json格式)
         """
-        ctype, pdict = cgi.parse_header(self.headers.get('content-type'))
+        # ctype, pdict = cgi.parse_header(self.headers.get('content-type'))
         
         # removed
         # refuse to receive non-json content
@@ -149,8 +150,14 @@ class PostHandler(BaseHTTPRequestHandler):
         #     return
             
         # read the message and convert it into a python dictionary
-        length = int(self.headers.get('content-length'))
-        message = json.loads(self.rfile.read(length))
+        try:
+            length = int(self.headers.get('content-length'))
+            message = json.loads(self.rfile.read(length))
+        except JSONDecodeError as e:
+            self.send_response(400)
+            print("content type is not json (cannot decode)\n")
+            self.end_headers()
+
         
         # get input query and weight, if not exist, refuse.
         try:
@@ -158,6 +165,7 @@ class PostHandler(BaseHTTPRequestHandler):
             weight = message['weight']
         except KeyError as e:
             self.send_response(400)
+            print("Didnt find 'query' and 'weight' key.")
             self.end_headers()
             return
 
