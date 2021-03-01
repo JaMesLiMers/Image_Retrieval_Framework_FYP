@@ -50,7 +50,7 @@ class PostHandler(BaseHTTPRequestHandler):
     archPath = "./Dataset/Arch/DemoData_20201228.json"
     model = archLmirBm25Model(archPath=archPath)
 
-    def _information_retrieval(self, query, weight):
+    def _information_retrieval(self, query, weight, limit=0):
         """
         使用weight(或者不用)和query进行信息检索的方法.
 
@@ -89,13 +89,21 @@ class PostHandler(BaseHTTPRequestHandler):
         # search a list of word/sentence
         try:
             if useWeight:
-                sortedResult, index, copora, annoIds , imageIds = self.model.searchWords(listWords=query, weights=weight)
+                sortedResult, index, copora, annoIds, imageIds = self.model.searchWords(listWords=query, weights=weight)
             else:
-                sortedResult, index, copora, annoIds , imageIds = self.model.searchSentence(listWords=query)
+                sortedResult, index, copora, annoIds, imageIds = self.model.searchSentence(listWords=query)
         except Exception as e:
             result["status"]["statusCode"] = 1
             result["status"]["statusMsg"] = "Fail, catch exception: {} when retrieving".format(e)
             return result
+
+        # limit number of the result entry's 
+        if limit != 0 and limit < len(sortedResult):
+            sortedResult = sortedResult[0:limit]
+            index = index[0:limit]
+            copora = copora[0:limit]
+            annoIds = annoIds[0:limit]
+            imageIds = imageIds[0:limit]
 
 
         # get all result
@@ -168,9 +176,17 @@ class PostHandler(BaseHTTPRequestHandler):
             print("Didnt find 'query' and 'weight' key.")
             self.end_headers()
             return
+        
+        # get result entry limit
+        # default limit to 5000 result entry
+        try:
+            limit = message['limit']
+            limit = int(limit)
+        except Exception as e:
+            limit = 5000
 
         # generate result
-        result = self._information_retrieval(query, weight)
+        result = self._information_retrieval(query, weight, limit=limit)
 
         # send the message back
         self._set_headers()
