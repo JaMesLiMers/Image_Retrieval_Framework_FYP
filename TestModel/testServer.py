@@ -183,7 +183,7 @@ class PostHandler(BaseHTTPRequestHandler):
             limit = message['limit']
             limit = int(limit)
         except Exception as e:
-            limit = 5000
+            limit = 0
 
         # generate result
         result = self._information_retrieval(query, weight, limit=limit)
