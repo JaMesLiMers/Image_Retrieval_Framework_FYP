@@ -3,11 +3,24 @@ Description=Archdataset HTTP Python server at http://<you_ip_adress>:35008
 After=network.target
 
 [Service]
+
+# -------------Prerequest-------------------
+# 请先设定下面两个环境变量:
+
+# 项目文件夹绝对路径
+Environment=ArchPath=<absPath>/Image_Retrieval_Framework_FYP
+
+# 项目文件夹绝对路径
+WorkingDirectory=<absPath>/Image_Retrieval_Framework_FYP
+
+# 对应Anaconda环境下的, 用来运行服务器的Python可执行文件绝对路径
+Environment=CondaEnvBinPath=<anacondaPath>/envs/<environmentName>/bin
+
+# -------------Prerequest-------------------
+
 Type=simple
 User=root
 Group=root
-WorkingDirectory=${ArchPath}
-Environment=PYTHONPATH=${ArchPath} 
 ExecStart=${CondaEnvBinPath}/python ${ArchPath}/TestModel/testServer.py 
 Restart=always
 
