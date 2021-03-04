@@ -85,6 +85,9 @@ class PostHandler(BaseHTTPRequestHandler):
         imagePaths = []
         imageTitles = []
         imageAnno = []
+        imageDesc = []
+        projectId = []
+
 
         # search a list of word/sentence
         try:
@@ -108,12 +111,17 @@ class PostHandler(BaseHTTPRequestHandler):
 
         # get all result
         for (annoId, imageId) in zip(annoIds, imageIds):
+            # get anno dict
+            annoDict = self.model.archDataset.anns[annoId]
+
             imagePaths.append(self.model.archDataset.imgs[imageId]["targetUrl"])
-            imageTitles.append(self.model.archDataset.anns[annoId]["title"])
+            # get anno, return None if dont have one
+            imageTitles.append(annoDict.get("title", None))
+            imageDesc.append(annoDict.get("description", None))
+            projectId.append(annoDict.get("projectId", None))
 
             # init string to show
             annoString = ""
-            annoDict = self.model.archDataset.anns[annoId]
             for key, value in annoDict.items():
                 if key == "concateText" or key == "cutConcateText" or key == "labels":
                     continue
@@ -127,7 +135,10 @@ class PostHandler(BaseHTTPRequestHandler):
             result["result"]["imagePath"] = imagePaths
             result["result"]["imageTitle"] = imageTitles
             result["result"]["imageAnno"] = imageAnno
+            result["result"]["imageDesc"] = imageDesc
+            result["result"]["projectId"] = projectId
             result["result"]["imageSim"] = sortedResult.tolist()
+            
             # statue
             result["status"]["statusCode"] = 0
             result["status"]["statusMsg"] = "Success"
