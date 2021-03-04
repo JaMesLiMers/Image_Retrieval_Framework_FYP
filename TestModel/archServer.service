@@ -21,7 +21,7 @@ Environment=CondaEnvBinPath=<anacondaPath>/envs/<environmentName>/bin
 Type=simple
 User=root
 Group=root
-ExecStart=${CondaEnvBinPath}/python ${ArchPath}/TestModel/testServer.py 
+ExecStart=/usr/bin/bash -c '${CondaEnvBinPath}/python ${ArchPath}/TestModel/testServer.py' 
 Restart=always
 
 [Install]
