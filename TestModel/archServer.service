@@ -1,0 +1,15 @@
+[Unit]
+Description=Archdataset HTTP Python server at http://<you_ip_adress>:35008
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=${ArchPath}
+Environment=PYTHONPATH=${ArchPath} 
+ExecStart=${CondaEnvBinPath}/python ${ArchPath}/TestModel/testServer.py 
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
