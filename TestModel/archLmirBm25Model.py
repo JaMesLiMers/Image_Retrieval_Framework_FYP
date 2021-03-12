@@ -2,7 +2,7 @@ import jieba
 import numpy as np
 from numpy.core.records import array
 from Dataloader.Arch.arch import Arch
-from Models.Bm25LMIR.lmirBm25Model import lmirBm25Model
+from TestModel.lmirBm25Model import lmirBm25Model
 
 class archLmirBm25Model():
     def __init__(self, archPath, model_weight=[0.25, 0.25, 0.25, 0.25]):

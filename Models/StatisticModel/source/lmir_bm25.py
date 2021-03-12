@@ -1,5 +1,5 @@
-import Models.Bm25LMIR.source.freq_feature as ff
-from Models.Bm25LMIR.source.freq_feature import cal_corpus_tf, cal_corpus_tp, cal_idf_BM25, cal_all_corpus_tf
+import Models.StatisticModel.source.freq_feature as ff
+from Models.StatisticModel.source.freq_feature import cal_corpus_tf, cal_corpus_tp, cal_idf_BM25, cal_all_corpus_tf
 
 
 class BM25_LMIR:

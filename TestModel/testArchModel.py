@@ -7,7 +7,7 @@ father_path = os.path.abspath(os.path.dirname(abs_path) + os.path.sep + ".")
 project_path = os.path.abspath(os.path.dirname(father_path) + os.path.sep + ".")
 sys.path.append(project_path)
 
-from Models.Bm25LMIR.archLmirBm25Model import archLmirBm25Model
+from TestModel.archLmirBm25Model import archLmirBm25Model
 
 
 """

@@ -1,6 +1,6 @@
 from typing import OrderedDict
 import numpy as np
-from Models.Bm25LMIR.source.lmir_bm25 import BM25_LMIR
+from Models.StatisticModel.source.lmir_bm25 import BM25_LMIR
 
 class lmirBm25Model():
     """BM25 and LMIR algorithm model.
