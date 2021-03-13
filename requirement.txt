@@ -5,6 +5,7 @@ jieba
 gensim
 sklearn
 torch
-torchvision
-matplotlib
 seaborn
+matplotlib
+torchvision
+editdistance
