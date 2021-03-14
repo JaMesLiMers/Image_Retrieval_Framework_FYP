@@ -52,4 +52,35 @@ class BasicKeywordModel:
         else:
             return keyWordList
 
+    def approxSearchList(self, keyWordList):
+        """搜索返回corpora中包含关键词的样本, 包括模糊匹配.
 
+        Args:
+            keyWord: (Python String) 输入的keyWord
+            e.g.
+                ['library', 'XJTLU', ..., 'modern']
+        
+        Return:
+            Python 列表, 列表中为可能的关键词. 
+            根据上述的三种情况返回例子:
+                1. [“严格匹配到的关键词”]
+                2. ["可能的关键词1", "可能的关键词2", ... ]
+                3. [] (空列表)
+        """
+        resultList = []
+        for keyword in keyWordList:
+            resultList += self.approxSearch(keyword)
+        return resultList
+
+
+
+
+if __name__ == '__main__':
+    kw_list = ['现代', '大学', '图书室']
+    corpora = ['两只', '老虎', '爱', '跳舞',
+               '小兔子', '乖乖', '拔', '萝卜',
+               '西浦', '是', '一所', '现代', '大学', '图书馆', '藏书', '丰富',
+               '苏州', '大学', '历史', '悠久']
+    model = BasicKeywordModel(corpora)
+    match_corpus = model.approxSearchList(kw_list)
+    print(match_corpus)
