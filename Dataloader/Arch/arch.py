@@ -33,7 +33,7 @@ class Arch:
             annotationFile (str): location of annotation file
             imageFolder (str): location to the folder that hosts images.
         Return:
-
+            None
         """
         # load dataset
         self.dataset,self.anns,self.pojs,self.imgs = dict(),dict(),dict(),dict()
@@ -48,6 +48,15 @@ class Arch:
             self.createIndex()
 
     def createIndex(self):
+        """生成需要的index
+        
+        生成 annotation, project, imgs的字典.
+
+        生成img到project, img到annotation, project到image.
+
+        生成根据标注的映射.
+        
+        """
         # create index
         print('creating index...')
         anns, pojs, imgs = {}, {}, {}
@@ -56,7 +65,7 @@ class Arch:
             for ann in self.dataset['imageAnnotations']:
                 imgToAnns[ann['imageId']].append(ann)
                 anns[ann['annotationId']] = ann
-                for label in self.extractLastLabel(ann["labels"]):
+                for label in self.extractAllLabel(ann["labels"]):
                     imgCatToImgs[label].append(ann['imageId'])
 
         if 'images' in self.dataset:
@@ -86,6 +95,29 @@ class Arch:
         self.pojs = pojs
 
     def extractLastLabel(self, labels):
+        """获得最后的一个label
+
+        Args:
+            labels: label数据, 例子如下:
+            
+                [{
+                    "label1": label1,
+                    "label2": label2,
+                    "label3": label3,
+                    "label4": label4,
+                    "label5": label5,
+                }, {
+                    "label1": label1,
+                    "label2": label2,
+                    "label3": label3,
+                    "label4": None,
+                    "label5": None,
+                }]
+
+        Return: 
+            一个列表, 里面是所有最后的label
+        
+        """
         lastLabels = []
         if labels is not None:
             for label in labels:
@@ -98,6 +130,75 @@ class Arch:
                         lastLabels.append(labelContent)
                         continue
         return lastLabels
+
+    def extractAllLabel(self, labels):
+        """获得所有的label
+
+        Args:
+            labels: label数据, 例子如下:
+            
+                [{
+                    "label1": label1,
+                    "label2": label2,
+                    "label3": label3,
+                    "label4": label4,
+                    "label5": label5,
+                }, {
+                    "label1": label1,
+                    "label2": label2,
+                    "label3": label3,
+                    "label4": None,
+                    "label5": None,
+                }]
+
+        Return: 
+            一个列表, 里面是所有的label
+        
+        """
+        lastLabels = []
+        if labels is not None:
+            for label in labels:
+                for i in range(1, 5):
+                    formatString="label{}".format(i)
+                    nextFormatString = "label{}".format(i+1)
+                    labelContent = label[formatString]
+                    next_labelContent = label[nextFormatString]
+                    if labelContent is not None:
+                        lastLabels.append(labelContent)
+                    if labelContent is not None and next_labelContent is None:
+                        continue
+        return lastLabels
+
+    def filterAnnoLabel(self, targetString):
+        """过滤需要的label, 只要包含都提取出来
+
+        Args:
+            targetString: 要用作搜索的String
+
+        Return:
+            所有包含这一标签的img.
+        """
+        result = {}
+        for cat, imgs in self.imgCatToImgs.items():
+            if targetString in cat:
+                result[cat] = imgs
+        return result
+    
+
+    def filterProjectLabel(self, targetString):
+        """过滤需要的label, 只要包含都提取出来
+
+        Args:
+            targetString: 要用作搜索的String
+
+        Return:
+            所有包含这一标签的project.
+        """
+        result = {}
+        for cat, projects in self.pojCatToPojs.items():
+            if targetString in cat:
+                result[cat] = projects
+        return result
 
     def reverseCharForAllContext(self):
         """
