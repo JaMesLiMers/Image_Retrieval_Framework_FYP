@@ -52,11 +52,11 @@ class BasicKeywordModel:
         else:
             return keyWordList
 
-    def approxSearchList(self, keyWordList):
+    def approxSearchList(self, keyWordList, threshold=1):
         """搜索返回corpora中包含关键词的样本, 包括模糊匹配.
 
         Args:
-            keyWord: (Python String) 输入的keyWord
+            keyWord: (List) 输入的keyWord组成的List
             e.g.
                 ['library', 'XJTLU', ..., 'modern']
         
@@ -69,7 +69,7 @@ class BasicKeywordModel:
         """
         resultList = []
         for keyword in keyWordList:
-            resultList += self.approxSearch(keyword)
+            resultList += self.approxSearch(keyword, threshold)
         return resultList
 
 

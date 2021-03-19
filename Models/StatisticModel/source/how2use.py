@@ -1,4 +1,4 @@
-from Models.Bm25LMIR.source.lmir_bm25 import BM25_LMIR
+from Models.StatisticModel.source.lmir_bm25 import BM25_LMIR
 
 if __name__ == "__main__":
     # 对BM25进行测试 (官方文档作为标准)

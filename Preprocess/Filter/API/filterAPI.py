@@ -4,8 +4,7 @@ def filterHTML(rawText):
     """过滤掉所有HTML的标签和URL, 只保留文字部分
 
     Args:
-        rawText: 有或者没有乱七八糟东西的字符串
-        toReplace: 用来替换侦测到对应格式的字符串的目标字符串(默认为空格)
+        rawText: (String) 需要过滤的字符串
     Return: 
         替换后的字符串
     """
@@ -18,11 +17,10 @@ def filterHTML(rawText):
 
 
 def filterJSON(rawText):
-    """过滤掉Key的部分, 只保留文字部分
+    """过滤掉Key的部分, 只保留Value部分
 
     Args:
-        rawText: 有或者没有乱七八糟东西的字符串
-        toReplace: 用来替换侦测到对应格式的字符串的目标字符串(默认为空格)
+        rawText: (String) 需要过滤的字符串
     Return: 
         替换后的字符串
     """
@@ -37,8 +35,7 @@ def filterText(rawText):
     """过滤掉到只保留文字部分
 
     Args:
-        rawText: 有或者没有乱七八糟东西的字符串
-        toReplace: 用来替换侦测到对应格式的字符串的目标字符串(默认为空格)
+        rawText: (String) 需要过滤的字符串
     Return: 
         替换后的字符串
     """
