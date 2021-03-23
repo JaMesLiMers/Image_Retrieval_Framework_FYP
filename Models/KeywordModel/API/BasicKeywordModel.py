@@ -69,7 +69,7 @@ class BasicKeywordModel:
         """
         resultList = []
         for keyword in keyWordList:
-            resultList += self.approxSearch(keyword, threshold)
+            resultList.append(self.approxSearch(keyword, threshold))
         return resultList
 
 
