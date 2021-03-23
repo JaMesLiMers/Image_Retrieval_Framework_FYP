@@ -34,23 +34,34 @@ class BasicKeywordModel:
             keyWord: (Python String) 输入的keyWord
         
         Return:
-            Python 列表, 列表中为可能的关键词. 
-            根据上述的三种情况返回例子:
-                1. [“严格匹配到的关键词”]
-                2. ["可能的关键词1", "可能的关键词2", ... ]
-                3. [] (空列表)
+            Python 字典, 字典中为包括搜索的关键词, 严格匹配到的标签和可能的标签(如果无则为空列表).
+            返回结果例子为:
+                {
+                    "keyword": "xxxx"
+                    "strict": []
+                    "approximate" :[]
+                }
         """
         
-        keyWordList = []
+        keyWordDict = {}
+        strict = []
+        approximate = []
+
         for i in self.corpora:
             if strictMatch(keyWord, i):
-                return [i]
+                if i not in strict:
+                    strict.append(i)
             elif levenshteinDistance(keyWord, i) <= threshold:
-                keyWordList.append(i)
+                if i not in approximate:
+                    approximate.append(i)
             else:
                 pass
         else:
-            return keyWordList
+            return {
+                "keyword": keyWord,
+                "strict": strict,
+                "approximate" :approximate,
+                }
 
     def approxSearchList(self, keyWordList, threshold=1):
         """搜索返回corpora中包含关键词的样本, 包括模糊匹配.
@@ -61,11 +72,14 @@ class BasicKeywordModel:
                 ['library', 'XJTLU', ..., 'modern']
         
         Return:
-            Python 列表, 列表中为可能的关键词. 
-            根据上述的三种情况返回例子:
-                1. [“严格匹配到的关键词”]
-                2. ["可能的关键词1", "可能的关键词2", ... ]
-                3. [] (空列表)
+            Python 列表, 列表中包括搜索到的字典, 字典中为包括搜索的关键词, 严格匹配到的标签和可能的标签(如果无则为空列表).
+            返回结果例子为:
+                [{
+                    "keyword": "xxxx"
+                    "strict": []
+                    "approximate" :[]
+                }, ]
+                    
         """
         resultList = []
         for keyword in keyWordList:
