@@ -14,4 +14,4 @@ def cutByJieba(rawText, returnList=True):
     Return:
         若returnList为True则返回Python的List, 若False则返回一个generator.
     """
-    return jieba.cut_for_search(rawText) if returnList else jieba.lcut_for_search(rawText)
+    return jieba.lcut_for_search(rawText) if returnList else jieba.cut_for_search(rawText)

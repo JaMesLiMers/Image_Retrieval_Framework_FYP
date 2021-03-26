@@ -12,7 +12,7 @@ def replaceNoneCharactor(rawText, toReplace=" "):
         替换后的字符串
     """
     # filter out all charactor
-    cop = re.compile("[^\u4e00-\u9fa5^a-z^A-Z]")
+    cop = re.compile("[^\u4e00-\u9fa5a-zA-Z]")
     # replace to space
     cleanText = re.sub(cop, toReplace, rawText)
     return cleanText
@@ -74,7 +74,7 @@ def replaceMultiSpace(rawText, toReplace=" "):
     Return: 
         替换后的字符串
     """
-    cop = re.compile("\s*")
+    cop = re.compile("\s+")
     cleanText = re.sub(cop, toReplace, rawText)
     return cleanText
 
